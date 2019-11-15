@@ -1,0 +1,154 @@
+﻿@{ViewBag.Title = "Erdem Siyam";}
+@using ErdemYeniWeb.Models.Site
+@using ErdemYeniWeb.ViewModels
+@model IndexModel
+<section id="home_banner_area" class="home_banner_area">
+    <div class="container box_1620">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="banner_content">
+                <div class="media">
+                    <div class="d-flex">
+                        <img src="~/Images/User/@Model.user.BigPicturePath" alt="@Model.user.Name" width="668" height="690">
+                    </div>
+                    <div class="media-body">
+                        <div class="personal_text">
+                            <h6>Merhaba, Ben</h6>
+                            <h3>@Model.user.Name</h3>
+                            <h4>@Model.user.Degree</h4>
+                            <p>@Model.user.About1</p>
+                            <ul class="list basic_info">
+                                <li><a href="#"><i class="lnr lnr-calendar-full"></i> @Model.user.BirthDate.ToString("dd MMM yy")</a></li>
+                                <li><a href="#"><i class="lnr lnr-phone-handset"></i> @Model.user.Phone</a></li>
+                                <li><a href="#"><i class="lnr lnr-envelope"></i> @Model.user.Email</a></li>
+                                <li><a href="#"><i class="lnr lnr-home"></i> @Model.user.Address</a></li>
+                            </ul>
+                            <ul class="list personal_social">
+                                <li><a href="@Model.user.Linkedin" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a href="@Model.user.Github" target="_blank"><i class="fa fa-github"></i></a></li>
+                                <li><a href="@Model.user.Instagram" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                                <li><a href="@Model.user.Twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="@Model.user.Facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="welcome_area" class="welcome_area p_120">
+    <div class="container">
+        <div class="row welcome_inner">
+            <div class="col-lg-6">
+                <div class="welcome_text">
+                    <h4>About Myself</h4>
+                    <p>@Model.user.About2</p>
+                    <a href="@Url.Action("DownloadCv","Index", new { lang="en"})" class="genric-btn success radius">En Cv Download</a>
+                    <br />
+                    <br />
+                    <a href="@Url.Action("DownloadCv","Index", new { lang="tr"})" class="genric-btn success radius">Tr Cv Download</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="tools_expert">
+                    <div class="skill_main">
+                        @foreach (Skill item in Model.skills)
+                        {
+                            <div class="skill_item">
+                                <h4>@item.Name <span class="counter">@item.Percent</span>%</h4>
+                                <div class="progress_br">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="@item.Percent" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="mytabs_area" class="mytabs_area p_120">
+    <div class="container">
+        <div class="tabs_inner">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">My Experiences</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">My Education</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <ul class="list">
+                        @foreach (Experience item in Model.experiences.OrderBy(x => x.StartDate))
+                        {
+                            <li>
+                                <span></span>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <p>@item.StartDate.ToString("MMM yyyy") - @item.EndDate.ToString("MMM yyyy")</p>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>@item.CompanyName</h4>
+                                        <p>@item.Degree<br />@item.Location</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <ul class="list">
+                        @foreach (Education item in Model.educations.OrderBy(x => x.StartDate))
+                        {
+                            <li>
+                                <span></span>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <p>@item.StartDate.ToString("MMM yyyy") - @item.EndDate.ToString("MMM yyyy")</p>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>@item.SchoolName</h4>
+                                        <p>@item.Degree <br />@item.Location</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="feature_area p_120">
+    <div class="container">
+        <div class="main_title">
+            <h2>Referances Projects</h2>
+            <p>Some of my own projects. If you looking for more, check out my</p> <a href="@Model.user.Github" target="_blank">GITHUB</a>
+        </div>
+        <div class="feature_inner row">
+            @foreach (Project item in Model.projects.OrderByDescending(x => x.AddDate))
+            {
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="feature_item">
+                        <i class="fa fa-tasks"></i>@*<i class="flaticon-sketch"></i>*@
+                        <h4>@item.Title</h4>
+                        <p>@item.Summary</p>
+                        <a href="@item.GithubLink" target="_blank">Github Link</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+<section class="testimonials_area p_120">
+    <div class="container">
+        <div class="main_title">
+            <a href="@Url.Action("Index","Blog")" class="genric-btn success" style="padding-top:50px;padding-bottom:50px;padding-left:150px;padding-right:150px;"><font size="6">BLOG</font></a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,224 @@
+﻿@{
+    ViewBag.Title = "User Information";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using ErdemYeniWeb.Models.Site
+@using ErdemYeniWeb.ViewModels
+@model AdminUserInformationModel
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Skills
+            </header>
+            <table id="skillTable" class="table table-striped table-advance table-hover">
+                <thead>
+                    <tr>
+                        <th><i class="icon-reorder"></i></th>
+                        <th><i class="icon-code"></i>  Name</th>
+                        <th><i class="icon-thumbs-up"></i>  Percent</th>
+                        <th><i class="icon-remove"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Skill item in Model.skills)
+                    {
+                        <tr id="@item.Id">
+                            <td></td>
+                            <td>@item.Name</td>
+                            <td>@item.Percent</td>
+                            <td>
+                                <a class="btn btn-danger btn-xs" onclick="informationDelete('Skill','@(item.Id)')"><i class="icon-trash "></i></a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td> NEW</td>
+                        <td>
+                            <input id="newSkillName" name="newSkillName" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newSkillPercent" name="newSkillPercent" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <a class="btn btn-success" onclick="informationAdd('Skill')" id="skillAdd">Add</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Educations
+            </header>
+            <table id="educationTable" class="table table-striped table-advance table-hover">
+                <thead>
+                    <tr>
+                        <th><i class="icon-reorder"></i></th>
+                        <th><i class="icon-code"></i>  SchoolName</th>
+                        <th><i class="icon-thumbs-up"></i>  Degree</th>
+                        <th><i class="icon-thumbs-up"></i>  Location</th>
+                        <th><i class="icon-thumbs-up"></i>  Start Date</th>
+                        <th><i class="icon-thumbs-up"></i>  End Date</th>
+                        <th><i class="icon-remove"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Education item in Model.educations)
+                    {
+                        <tr id="@item.Id">
+                            <td></td>
+                            <td>@item.SchoolName</td>
+                            <td>@item.Degree</td>
+                            <td>@item.Location</td>
+                            <td>@item.StartDate.ToString("MM.dd.yyyy")</td>
+                            <td>@item.EndDate.ToString("MM.dd.yyyy")</td>
+                            <td>
+                                <a class="btn btn-danger btn-xs" onclick="informationDelete('Education','@(item.Id)')"><i class="icon-trash "></i></a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td> NEW</td>
+                        <td>
+                            <input id="newEducationSchoolName" name="newEducationSchoolName" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newEducationDegree" name="newEducationDegree" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newEducationLocation" name="newEducationLocation" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newEducationStartDate" name="newEducationStartDate" placeholder="MM.dd.yyyy" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newEducationEndDate" name="newEducationEndDate" placeholder="MM.dd.yyyy" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <a class="btn btn-success" onclick="informationAdd('Education')" id="educationAdd">Add</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Experiences
+            </header>
+            <table id="experienceTable" class="table table-striped table-advance table-hover">
+                <thead>
+                    <tr>
+                        <th><i class="icon-reorder"></i></th>
+                        <th><i class="icon-code"></i>  CompanyName</th>
+                        <th><i class="icon-thumbs-up"></i>  Degree</th>
+                        <th><i class="icon-thumbs-up"></i>  Location</th>
+                        <th><i class="icon-thumbs-up"></i>  Start Date</th>
+                        <th><i class="icon-thumbs-up"></i>  End Date</th>
+                        <th><i class="icon-remove"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Experience item in Model.experiences)
+                    {
+                        <tr id="@item.Id">
+                            <td></td>
+                            <td>@item.CompanyName</td>
+                            <td>@item.Degree</td>
+                            <td>@item.Location</td>
+                            <td>@item.StartDate.ToString("MM.dd.yyyy")</td>
+                            <td>@item.EndDate.ToString("MM.dd.yyyy")</td>
+                            <td>
+                                <a class="btn btn-danger btn-xs" onclick="informationDelete('Experience','@(item.Id)')"><i class="icon-trash "></i></a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td> NEW</td>
+                        <td>
+                            <input id="newExperienceCompanyName" name="newExperienceCompanyName" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newExperienceDegree" name="newExperienceDegree" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newExperienceLocation" name="newExperienceLocation" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newExperienceStartDate" name="newExperienceStartDate" placeholder="MM.dd.yyyy" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newExperienceEndDate" name="newExperienceEndDate" placeholder="MM.dd.yyyy" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <a class="btn btn-success" onclick="informationAdd('Experience')" id="experienceAdd">Add</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Projects
+            </header>
+            <table id="projectTable" class="table table-striped table-advance table-hover">
+                <thead>
+                    <tr>
+                        <th><i class="icon-reorder"></i></th>
+                        <th><i class="icon-code"></i>  Title</th>
+                        <th><i class="icon-thumbs-up"></i>  Summary</th>
+                        <th><i class="icon-thumbs-up"></i>  Add Date</th>
+                        <th><i class="icon-thumbs-up"></i>  GithubLink</th>
+                        <th><i class="icon-remove"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Project item in Model.projects)
+                    {
+                        <tr id="@item.Id">
+                            <td></td>
+                            <td>@item.Title</td>
+                            <td>@item.Summary</td>
+                            <td>@item.AddDate.ToString("MM.dd.yyyy")</td>
+                            <td>@item.GithubLink</td>
+                            <td>
+                                <a class="btn btn-danger btn-xs" onclick="informationDelete('Project','@(item.Id)')"><i class="icon-trash "></i></a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td> NEW</td>
+                        <td>
+                            <input id="newProjectTitle" name="newProjectTitle" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newProjectSummary" name="newProjectSummary" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newProjectAddDate" name="newProjectAddDate" placeholder="MM.dd.yyyy" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <input id="newProjectGithubLink" name="newProjectGithubLink" type="text" class="form-control">
+                        </td>
+                        <td>
+                            <a class="btn btn-success" onclick="informationAdd('Project')" id="projectAdd">Add</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+@Scripts.Render("~/js/admin/UserInformation")

@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "ES - Blog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using ErdemYeniWeb.ViewModels
+@using ErdemYeniWeb.Models.Blog
+@model BlogAllBlogsModel
+<section class="home_banner_area blog_banner" style="min-height:120px;"></section>
+<section class="blog_area" style="padding-top:30px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="blog_left_sidebar">
+                    <h4>
+                        @if (Model.search != null)
+                        {
+                            <a href="@Url.Action("Index", "Blog", new { id = "1", tag = Model.tag })" class="genric-btn info circle arrow">@("Search : " + Model.search)<span class="lnr lnr-cross"></span></a>
+                        }
+                        @if (Model.tag != null)
+                        {
+                            <a href="@Url.Action("Index", "Blog", new { id = "1", search = Model.search })" class="genric-btn success circle arrow">@("Search Tag : #" + Model.tag)<span class="lnr lnr-cross"></span></a>
+                        }
+                    </h4>
+                    @if (Model.search != null || Model.tag != null)
+                    {
+                        <hr />
+                    }
+
+                    @if (Model.blogs.Count == 0)
+                    {
+                        <br />
+                        <h3>No Blog.</h3>
+                    }
+                    @foreach (Blog item in Model.blogs)
+                    {
+                        <article class="row blog_item">
+                            <div class="col-md-3">
+                                <div class="blog_info text-right">
+                                    <div class="post_tag">
+                                        @foreach (BlogTag item2 in item.BlogTags)
+                                        {
+                                            <a class="active" href="@Url.Action("Index", "Blog", new { id = "1", tag = item2.Tag.SeoUrl })">@item2.Tag.Name,</a>
+                                        }
+                                    </div>
+                                    <ul class="blog_meta list">
+                                        <li><a href="@Url.Action("Index", "Index")">Erdem Siyam<i class="lnr lnr-user"></i></a></li>
+                                        <li><a href="#">@item.CreateDate.ToString("dd MMM, yyyy")<i class="lnr lnr-calendar-full"></i></a></li>
+                                        <li><a href="#">@item.Views Views<i class="lnr lnr-eye"></i></a></li>
+                                        <li><a href="#">@item.Comments.Where(x => x.Verifery == true).Count() Comments<i class="lnr lnr-bubble"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="blog_post">
+                                    <img src="~/Images/Blog/@((item.UsePicOfThisTag == null)?item.TitlePicturePath:item.UsePicOfThisTag.PicturePath)" alt="@item.Title" width="555" height="280">
+                                    <div class="blog_details">
+                                        <a href="@Url.Action("Entry", "Blog", new { id = item.SeoUrl })"><h2>@item.Title</h2></a>
+                                        <p>@item.Summary</p>
+                                        <a href="@Url.Action("Entry", "Blog", new { id = item.SeoUrl })" class="white_bg_btn">View More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    }
+                    <nav class="blog-pagination justify-content-center d-flex">
+                        <ul class="pagination">
+                            <li class="page-item @((Model.selectPage == 1)? "disabled":"")">
+                                <a href="@Url.Action("Index","Blog",new { id = Model.selectPage-1 , search = Model.search , tag = Model.tag })" class="page-link" aria-label="Previous">
+                                    <span aria-hidden="true">
+                                        <span class="lnr lnr-chevron-left"></span>
+                                    </span>
+                                </a>
+                            </li>
+                            @for (int i = Model.minPage; i <= Model.totalPage; i++)//i=1
+                            {
+                                <li class="page-item @((Model.selectPage == i) ? "active" : "")">
+                                    <a href="@Url.Action("Index", "Blog", new { id = i , search = Model.search , tag = Model.tag})" class="page-link">
+                                        @((i < 10) ? "0" + i.ToString() : i.ToString())
+                                    </a>
+                                </li>
+                            }
+                            <li class="page-item @((Model.selectPage >= Model.totalPage)? "disabled":"")">
+                                <a href="@Url.Action("Index","Blog",new { id = Model.selectPage+1 , search = Model.search , tag = Model.tag })" class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">
+                                        <span class="lnr lnr-chevron-right"></span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            @Html.Partial("_Menu", Model.menuModel);
+        </div>
+    </div>
+</section>

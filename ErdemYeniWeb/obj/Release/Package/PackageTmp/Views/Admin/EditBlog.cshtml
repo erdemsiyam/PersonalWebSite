@@ -1,0 +1,83 @@
+﻿@{
+                /**/
+
+                ViewBag.Title = "Edit Blog";
+                Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using ErdemYeniWeb.Models.Blog
+@using ErdemYeniWeb.ViewModels
+@model AdminEditBlogModel
+<input id="id" type="hidden" value="@Model.blog.Id" />
+<div class="row">
+    <div class="col-md-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Edit Blog Entry
+                <span class="tools pull-right">
+                    <a href="javascript:;" class="icon-chevron-down"></a>
+                    <a href="javascript:;" class="icon-remove"></a>
+                </span>
+            </header>
+            <div class="panel-body">
+                <form action="#" class="form-horizontal tasi-form">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Select Tags</label>
+                        <div class="col-md-4">
+                            <ul id="Tags" name="Tags">
+                                @foreach (Tag item in Model.tags)
+                                {
+                                    <li>
+                                        <input type="checkbox" value="@item.Id" @((Model.selectedTags.Contains(item)) ? "checked" : "") />
+                                        @item.Name
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Title Picture <br /> (recomended : 555x280)</label>
+                        <div class="col-md-4">
+                            <img src="~/Images/Blog/@Model.blog.TitlePicturePath" height="100" width="100" />
+                            <input type="file" id="TitlePicture" name="TitlePicture" />
+                            <br />
+                            (Optional) Or Else, You can use Tag Picture :
+                            <select id="selectedPicTagId">
+                                <option value="">No Select</option>
+                                @foreach (Tag item in Model.tags)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Title</label>
+                        <div class="col-md-4">
+                            <input type="text" id="Title" value="@Model.blog.Title" name="TitlePicture" placeholder="Title" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Summary</label>
+                        <div class="col-md-4">
+                            <textarea id="Summary" name="Summary" placeholder="Summary" style="height:80px;width=700px;">@Model.blog.Summary</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        (Recomended : if you picture, be careful picture width not owerflow 750px)
+                        <div class="col-md-12">
+                            <textarea class="ckeditor" id="Content" name="Content">@Model.blog.Content</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group last">
+                        <div class="col-md-12 text-center">
+                            <a onclick="updateBlog()" class="btn btn-success btn-lg">Update</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="~/Scripts/ckeditor/ckeditor.js"></script> @* Bu scriptler' bundle ile optimize edildiği halde hata vermektedir, o yüzden elle eklenmiştir.*@
+<script src="~/Scripts/ckfinder/ckfinder.js"></script>
+@Scripts.Render("~/js/admin/BlogEdit")

@@ -1,0 +1,54 @@
+﻿@{Layout = null;}
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta name="title" content="Erdem Siyam" />
+    <meta name="description" content="@((ViewBag.Description == null)?"Erdem Siyam":ViewBag.Description)" />
+    <meta name="author" content="Erdem Siyam" />
+    <meta name="owner" content="Erdem Siyam" />
+    <meta name="copyright" content="(c) 2019" />
+    <meta http-equiv="Content-Language" content="tr" />
+    <meta http-equiv="Content-Type" content="text/html; chartset=UTF-8"/>
+    <meta name="keywords" content="Erdem, Siyam, Yazılım, Yazılımcı, Freelance, Blog, Çözüm, Çözümü" />
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow, archive" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="/Context/SiteContext/favicon.png" type="image/png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Context/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Context/favicon-16x16.png">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/css/indexlayout")
+</head>
+<body>
+    <header class="header_area">
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container box_1620">
+                    <a class="navbar-brand logo_h" href="@Url.Action("Index","Index")"><h3 style="color:white;">Home</h3></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto">
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Index","Blog")">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    @RenderBody()
+    <footer class="footer_area p_120">
+        <div class="container">
+            <div class="row footer_inner text-center">
+                <div class="col-lg-12 col-sm-12">
+                    @(DateTime.Now.ToString("yyyy MMM")). Erdem Siyam.
+                </div>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/js/indexlayout")
+</body>
+</html>

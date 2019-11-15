@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "New Blog";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using ErdemYeniWeb.Models.Blog
+@model List<Tag>
+<div class="row">
+    <div class="col-md-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Add New Blog Entry
+                <span class="tools pull-right">
+                    <a href="javascript:;" class="icon-chevron-down"></a>
+                    <a href="javascript:;" class="icon-remove"></a>
+                </span>
+            </header>
+            <div class="panel-body">
+                <form action="#" class="form-horizontal tasi-form">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Select Tags</label>
+                        <div class="col-md-4">
+                            <ul id="Tags" name="Tags">
+                                @foreach (Tag item in Model)
+                                {
+                                    <li>
+                                        <input type="checkbox" value="@item.Id" />
+                                        @item.Name
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Title Picture <br /> (recomended : 750x350)</label>
+                        <div class="col-md-4">
+                            <input type="file" id="TitlePicture" name="TitlePicture" />
+                            <br />
+                            (Optional) Or Else, You can use Tag Picture :
+                            <select id="selectedPicTagId">
+                                <option value="">No Select</option>
+                                @foreach (Tag item in Model)
+                                {
+                                    if (item.PicturePath != null)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Title</label>
+                        <div class="col-md-4">
+                            <input type="text" id="Title" name="TitlePicture" placeholder="Title" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Summary</label>
+                        <div class="col-md-4">
+                            <textarea id="Summary" name="Summary" placeholder="Summary" style="height:80px;width=700px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <textarea class="ckeditor" id="Content" name="Content"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group last">
+                        (Recomended : if you picture, be careful picture width not owerflow 750px)
+                        <div class="col-md-12 text-center">
+                            <a onclick="createBlog()" class="btn btn-success btn-lg">Create</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="~/Scripts/ckeditor/ckeditor.js"></script> @* Bu scriptler' bundle ile optimize edildiği halde hata vermektedir, o yüzden elle eklenmiştir.*@
+<script src="~/Scripts/ckfinder/ckfinder.js"></script>
+@Scripts.Render("~/js/admin/BlogNew")

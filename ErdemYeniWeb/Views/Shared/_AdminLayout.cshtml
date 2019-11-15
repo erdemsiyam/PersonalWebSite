@@ -1,0 +1,128 @@
+﻿@{Layout = null;}
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Context/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Context/favicon-16x16.png">
+    <title>Admin - @ViewBag.Title</title>
+    @Styles.Render("~/css/adminlayout")
+</head>
+<body>
+    @Scripts.Render("~/js/admin/onlyJquery")
+    <section id="container">
+        <header class="header white-bg">
+            <div class="sidebar-toggle-box">
+                <div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
+            </div>
+            <a href="@Url.Action("Index","Admin")" class="logo">Admin<span>Panel</span></a>
+            <div class="nav notify-row" id="top_menu">
+                <ul class="nav top-menu">
+                    <li>
+                        <a href="@Url.Action("Logs","Admin")">
+                            <i class="icon-tasks"></i>
+                            <span class="badge bg-success"> @(ErdemYeniWeb.Models.Site.User.getNewLogsCountSinceLastLogin())</span>
+                        </a>
+                    </li>
+                    <li id="header_inbox_bar" class="dropdown">
+                        <a href="@Url.Action("Comments","Admin")">
+                            <i class="icon-envelope-alt"></i>
+                            <span class="badge bg-important"> @(ErdemYeniWeb.Models.Site.User.getNewCommentCountSinceLastLogin())</span>
+                        </a>
+                    </li>
+                    <li id="header_notification_bar" class="dropdown">
+                        <a href="@Url.Action("ExceptionLogs","Admin")">
+                            <i class="icon-bell-alt"></i>
+                            <span class="badge bg-warning"> @(ErdemYeniWeb.Models.Site.User.getNewExceptionLogsCountSinceLastLogin().ToString())</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="top-nav ">
+                <ul class="nav pull-right top-menu">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="username">Erdem Siyam</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            <li><a href="@Url.Action("Cikis","Index")"><i class="icon-key"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <aside>
+            <div id="sidebar" class="nav-collapse ">
+                <ul class="sidebar-menu" id="nav-accordion">
+                    <li>
+                        <a href="/Admin/Index">
+                            <i class="icon-dashboard"></i>
+                            <span>Index</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="icon-laptop"></i>
+                            <span>User</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="@Url.Action("UserDetails","Admin")">Details</a></li>
+                            <li><a href="@Url.Action("UserInformation","Admin")">Information</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="icon-book"></i>
+                            <span>Blogs</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="@Url.Action("NewBlog","Admin")">Add New</a></li>
+                            <li><a href="@Url.Action("AllBlogs","Admin")">All Blogs</a></li>
+                            <li><a href="@Url.Action("Tags","Admin")">Tags</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Comments","Admin")">
+                            <i class="icon-envelope"></i>
+                            <span>Comments </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Logs","Admin")">
+                            <i class="icon-tasks"></i>
+                            <span>Logs </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ExceptionLogs","Admin")">
+                            <i class="icon-tasks"></i>
+                            <span>Exception Logs </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <section id="main-content">
+            <section class="wrapper">
+                @RenderBody()
+            </section>
+        </section>
+        <footer class="site-footer">
+            <div class="text-center">
+                @(DateTime.Now.Year) M. Erdem Siyam
+                <a href="#" class="go-top">
+                    <i class="icon-angle-up"></i>
+                </a>
+            </div>
+        </footer>
+    </section>
+    @**@@Scripts.Render("~/js/adminlayout")
+    <script src="~/Context/AdminContext/js/jquery.dcjqaccordion.2.7.js"></script>@*Bu Script dosyası, tek satır hale gelmesi durumunda, hata vermektedir, bundle'a eklenmemiş uzunca kod hali en sona dahil edilmiştir.*@
+</body>
+</html>

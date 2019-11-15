@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "All Blogs";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using ErdemYeniWeb.Models.Blog
+@using ErdemYeniWeb.ViewModels
+@model AdminAllBlogsModel
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Blogs
+            </header>
+            <div class="panel-body">
+                <section id="unseen">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th class="numeric">Title</th>
+                                <th class="numeric">Tags (Click : New Tab Open)</th>
+                                <th class="numeric">Summary</th>
+                                <th class="numeric">Create Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Blog item in Model.blogs)
+                            {
+                                <tr id="@item.Id">
+                                    <td><img src="~/Images/Blog/@((item.UsePicOfThisTag == null)?item.TitlePicturePath:item.UsePicOfThisTag.PicturePath)" width="100" height="100" /></td>
+                                    <td class="numeric"> <a href="@Url.Action("Entry","Blog", new { id = item.SeoUrl})" target="_blank">@item.Title</a> </td>
+                                    <td class="numeric">
+                                        @foreach (BlogTag blogTag in item.BlogTags.ToList())
+                                        {
+                                            <p> @(blogTag.Tag.Name + " ") </p>
+                                        }
+                                    </td>
+                                    <td class="numeric">@item.Summary</td>
+                                    <td class="numeric">@item.CreateDate</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-xs" href="@Url.Action("EditBlog","Admin",new { id = item.Id })"><i class="icon-pencil"></i></a>
+                                        <a class="btn btn-danger btn-xs" onclick="deleteBlog('@item.Id')"><i class="icon-trash "></i></a>
+                                    </td>
+                                    <td class="numeric"></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="dataTables_info" id="editable-sample_info">20 blogs showing per page (Total blogs count is @Model.itemCount)</div>
+    </div>
+    <div class="col-lg-6">
+        <div class="dataTables_paginate paging_bootstrap pagination">
+            <ul>
+                <li class="prev @((Model.selectPage == Model.minPage)? "disabled":"")">
+                    <a href="@Url.Action("AllBlogs","Admin",new { id = Model.selectPage-1 })">← Prev</a>
+                </li>
+                @for (int i = Model.minPage; i <= Model.totalPage; i++)
+                {
+                    <li class="@((Model.selectPage == i)?"active":"")">
+                        <a href="@Url.Action("AllBlogs","Admin",new { id = i })">@((i < 10) ? "0" + i.ToString() : i.ToString())</a>
+                    </li>
+                }
+                <li class="next @((Model.selectPage >= Model.totalPage)? "disabled":"")">
+                    <a href="@Url.Action("AllBlogs","Admin",new { id = Model.selectPage+1 })">Next → </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/js/admin/BlogDelete")

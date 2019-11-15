@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "ES - "+Model.blog.Title;
+    ViewBag.Description = Model.blog.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using ErdemYeniWeb.Models.Blog
+@using ErdemYeniWeb.ViewModels
+@model BlogEntryModel
+<section class="banner_area" style="min-height:120px;margin-bottom:0px;"></section>
+<section class="blog_area single-post-area p_120" style="padding-top:60px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 posts-list">
+                <div class="single-post row">
+                    <div class="col-lg-12">
+                        <div class="feature-img">
+                            <img class="img-fluid" src="~/Images/Blog/@((Model.blog.UsePicOfThisTag == null)?Model.blog.TitlePicturePath:Model.blog.UsePicOfThisTag.PicturePath)" alt="@Model.blog.Title" width="750" height="350">
+                        </div>
+                    </div>
+                    <div class="col-lg-3  col-md-3">
+                        <div class="blog_info text-right">
+                            <div class="post_tag">
+                                @{ 
+                                    int tagsSize = Model.blog.BlogTags.Count, tagIndex=1;
+                                }
+                                @foreach (BlogTag item in Model.blog.BlogTags)
+                                {
+                                    <a class="active" href="@Url.Action("Index", "Blog", new { id = "1", tag = item.Tag.SeoUrl })">@item.Tag.Name</a>
+                                    @((tagIndex++ < tagsSize)?",":"")
+                                }
+                            </div>
+                            <ul class="blog_meta list">
+                                <li><a href="@Url.Action("Index", "Index")">Erdem Siyam<i class="lnr lnr-user"></i></a></li>
+                                <li><a href="#">@Model.blog.CreateDate.ToString("dd MMM, yyyy")<i class="lnr lnr-calendar-full"></i></a></li>
+                                <li><a href="#">@Model.blog.Views Views<i class="lnr lnr-eye"></i></a></li>
+                                <li><a href="#">@Model.blog.Comments.Where(x => x.Verifery == true).Count() Comments<i class="lnr lnr-bubble"></i></a></li>
+                            </ul>
+                            <ul class="social-links">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-github"></i></a></li>
+                                <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9 blog_details">
+                        <h2>@Model.blog.Title</h2>
+                        @Model.blog.Summary
+                    </div>
+                    <div class="col-lg-12">
+                        @Html.Raw(Model.blog.Content)
+                    </div>
+                </div>
+                <div class="navigation-area">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                            @if (Model.beforeBlog != null)
+                            {
+                                <div class="thumb">
+                                    <a href="@Url.Action("Entry", "Blog", new { id = Model.beforeBlog.SeoUrl })"><img class="img-fluid" src="~/Images/Blog/@((Model.beforeBlog.UsePicOfThisTag == null)?Model.beforeBlog.TitlePicturePath:Model.beforeBlog.UsePicOfThisTag.PicturePath)" width="60" height="60" alt="@Model.beforeBlog"></a>
+                                </div>
+                                <div class="arrow">
+                                    <a href="@Url.Action("Entry", "Blog", new { id = Model.beforeBlog.SeoUrl })"><span class="lnr text-white lnr-arrow-left"></span></a>
+                                </div>
+                                <div class="detials">
+                                    <p>Prev Post</p>
+                                    <a href="@Url.Action("Entry", "Blog", new { id = Model.beforeBlog.SeoUrl })"><h4>@Model.beforeBlog.Title</h4></a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="detials">
+                                    <p>This Post Last</p>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                            @if (Model.afterBlog != null)
+                            {
+                                <div class="detials">
+                                    <p>Next Post</p>
+                                    <a href="@Url.Action("Entry", "Blog", new { id = Model.afterBlog.SeoUrl })"><h4>@Model.afterBlog.Title</h4></a>
+                                </div>
+                                <div class="arrow">
+                                    <a href="@Url.Action("Entry", "Blog", new { id = Model.afterBlog.SeoUrl })"><span class="lnr text-white lnr-arrow-right"></span></a>
+                                </div>
+                                <div class="thumb">
+                                    <a href="@Url.Action("Entry", "Blog", new { id = Model.afterBlog.SeoUrl })"><img class="img-fluid" src="~/Images/Blog/@((Model.afterBlog.UsePicOfThisTag == null)?Model.afterBlog.TitlePicturePath:Model.afterBlog.UsePicOfThisTag.PicturePath)" width="60" height="60" alt="@Model.afterBlog"></a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="detials">
+                                    <p>This Post New</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="comments-area">
+                    @{ int i = Model.blog.Comments.Where(x => x.Verifery == true).Count(); }
+                    <h4>@((i < 10 && i != 0) ? "0" + i.ToString() : i.ToString()) Comments</h4>
+                    @foreach (Comment item in Model.blog.Comments.Where(x => x.Verifery == true).OrderBy(x => x.CreateDate))
+                    {
+                        <div class="comment-list">
+                            <div class="single-comment justify-content-between d-flex">
+                                <div class="user justify-content-between d-flex">
+                                    <div class="thumb">
+                                        @if (item.IsAdmin)
+                                        {
+                                            <img src="~/Images/User/@(ErdemYeniWeb.Models.Site.User.getUserCurrentBlogPicture())" width="60" height="60" alt="Erdem Siyam">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Images/User/noBody.jpg" width="60" height="60" alt="">
+                                        }
+                                    </div>
+                                    <div class="desc">
+                                        <h5><a href="#">@item.PersonName</a></h5>
+                                        <p class="date">@item.CreateDate.ToString("MMMM dd, yyyy 'at' HH:MM tt", new System.Globalization.CultureInfo("en-US"))</p>
+                                        <p class="comment">
+                                            @item.Content
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="comment-form">
+                    <h4>Leave a Reply</h4>
+                    <div class="form-group form-inline">
+                        <div class="form-group col-lg-6 col-md-6 name">
+                            <input type="text" class="form-control" id="name" placeholder="Enter Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'">
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 email">
+                            <input type="email" class="form-control" id="email" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control mb-10" rows="5" id="message" name="message" placeholder="Messege" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea>
+                    </div>
+                    <label class="label_check c_on" for="checkbox-01">
+                        <input name="isWantFollow" id="isWantFollow" type="checkbox" checked=""> Cevap geldiğinde bilgilendirilmek istiyorum.
+                    </label>
+                    <br />
+                    <button class="primary-btn submit_btn" onclick="sendReply('@Model.blog.SeoUrl')">Post Comment</button>
+                </div>
+            </div>
+            @Html.Partial("_Menu", Model.menuModel)
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/js/client/BlogEntry")

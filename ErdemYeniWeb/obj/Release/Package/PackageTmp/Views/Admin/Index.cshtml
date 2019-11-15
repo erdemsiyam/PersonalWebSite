@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using ErdemYeniWeb.ViewModels
+@model AdminIndexModel
+<div class="row">
+    <div class="col-lg-12">
+        <div class="border-head">
+            <h3>Since Last Login Click Counts</h3>
+        </div>
+    </div>
+</div>
+<div class="row state-overview">
+    <div class="col-lg-3 col-sm-6">
+        <section class="panel">
+            <div class="symbol blue">
+                <i class="icon-bar-chart"></i>
+            </div>
+            <div class="value">
+                <h1 class="count">@Model.IndexClickCount</h1>
+                <p>Index Click Count</p>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <section class="panel">
+            <div class="symbol blue">
+                <i class="icon-bar-chart"></i>
+            </div>
+            <div class="value">
+                <h1 class="count">@Model.BlogClickCount</h1>
+                <p>Blog Click Count</p>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <section class="panel">
+            <div class="symbol blue">
+                <i class="icon-bar-chart"></i>
+            </div>
+            <div class="value">
+                <h1 class="count">@Model.BlogEntryClickCount</h1>
+                <p>Blog Entry Click Count</p>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <section class="panel">
+            <div class="symbol blue">
+                <i class="icon-bar-chart"></i>
+            </div>
+            <div class="value">
+                <h1 class="count">@Model.CvClickCount</h1>
+                <p>En/Tr CV Click Count</p>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="border-head">
+            <h3>Blogs Count</h3>
+        </div>
+        <div class="custom-bar-chart">
+            <ul class="y-axis">
+                <li><span>50</span></li>
+                <li><span>40</span></li>
+                <li><span>30</span></li>
+                <li><span>20</span></li>
+                <li><span>10</span></li>
+                <li><span>0</span></li>
+            </ul>
+            @foreach (KeyValuePair<string, float> item in ErdemYeniWeb.Models.Blog.Blog.getBlogsCountPerMonth())
+            {
+                <div class="bar">
+                    <div class="title">@item.Key</div>
+                    @(item.Value / 2)
+                    <div class="value tooltips" data-original-title="@(item.Value)%" data-toggle="tooltip" data-placement="top" style="height: @(item.Value)%;"></div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <a class="form-control btn btn-warning" onclick="deleteLogs('info')">Delete Logs : Before This Month</a>
+    </div>
+    <div class="col-lg-6">
+        <a class="form-control btn btn-warning" onclick="deleteLogs('exception')">Delete Exception Logs : Before This Month</a>
+    </div>
+</div>
+@Scripts.Render("~/js/admin/LogDelete")

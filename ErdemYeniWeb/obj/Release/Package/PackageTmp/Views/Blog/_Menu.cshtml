@@ -1,0 +1,79 @@
+﻿@using ErdemYeniWeb.Models.Blog
+@using ErdemYeniWeb.ViewModels
+@model BlogMenuModel
+<div class="col-lg-4">
+    <div class="blog_right_sidebar">
+        <aside class="single_sidebar_widget search_widget">
+                @using (Html.BeginForm("Index", "Blog", new { id = 1},FormMethod.Get))
+                {
+                    <div class="input-group">
+
+                        <input id="search" name="search" type="text" class="form-control" placeholder="Search Posts">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="lnr lnr-magnifier"></i></button>
+                        </span>
+                    </div>
+                }
+            <div class="br"></div>
+        </aside>
+        <aside class="single_sidebar_widget author_widget">
+            <img class="author_img rounded-circle" src="~/Images/User/@Model.user.SmallPicturePath" alt="@Model.user.Name" width="120" height="120">
+            <h4>@Model.user.Name</h4>
+            <p>@Model.user.Degree</p>
+            <div class="social_icon">
+                <a href="@Model.user.Linkedin" target="_blank"><i class="fa fa-linkedin"></i></a>
+                <a href="@Model.user.Github" target="_blank"><i class="fa fa-github"></i></a>
+                <a href="@Model.user.Instagram" target="_blank"><i class="fa fa-instagram"></i></a>
+                <a href="@Model.user.Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+                <a href="@Model.user.Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+            </div>
+            <p>@Model.user.BlogSaying</p>
+            <div class="br"></div>
+        </aside>
+        <aside class="single_sidebar_widget popular_post_widget">
+            <h3 class="widget_title">Popular Posts</h3>
+            @foreach (Blog item in Model.populerBlogs)
+            {
+            <div class="media post_item">
+                @if (item.UsePicOfThisTag != null)
+                {
+                    <img src="~/Images/Blog/@item.UsePicOfThisTag.PicturePath" alt="@item.Title" width="100" height="60">
+                }
+                else
+                {
+                    <img src="~/Images/Blog/@item.TitlePicturePath" alt="@item.Title" width="100" height="60">
+                }
+                <div class="media-body">
+                    <a href="@Url.Action("Entry", "Blog", new { id = item.SeoUrl })"><h3>@item.Title</h3></a>
+                    <p>@item.CreateDate.ToString("dd MMM yyyy")</p>
+                </div>
+            </div>
+            }
+            <div class="br"></div>
+        </aside>
+        <aside class="single_sidebar_widget post_category_widget">
+            <h4 class="widget_title">Post Categories</h4>
+            <ul class="list cat-list">
+                @foreach (Tag item in Model.allTags)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Blog", new { id = "1", tag = item.SeoUrl })" class="d-flex justify-content-between">
+                            <p>@item.Name</p>
+                            <p>@item.BlogTags.Count</p>
+                        </a>
+                    </li>
+                }
+            </ul>
+            <div class="br"></div>
+        </aside>
+        <aside class="single-sidebar-widget tag_cloud_widget">
+            <h4 class="widget_title">Tag Clouds</h4>
+            <ul class="list">
+                @foreach (Tag item in Model.allTags)
+                {
+                    <li><a href="@Url.Action("Index", "Blog", new { id = "1", tag = item.SeoUrl })">@item.Name</a></li>
+                }
+            </ul>
+        </aside>
+    </div>
+</div>
